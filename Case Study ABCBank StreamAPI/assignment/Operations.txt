@@ -1,0 +1,11 @@
+1) get all accounts having low balance
+2) extract accounts by Locations 
+3) group accounts by location and Account Map<Location,List<Account>> : Hint use grouping
+4) group accounts by Map<Insurace , List<Account>> 
+5) extract all accounts based on upcoming premium date
+6) extract Policy Sold before Certain date 
+7) Extract Accounts based on Transaction & brachLocation
+8) Apply 2% cash back , whenever Account withdarw amount more than 10,000   
+      Hint : use map
+9) extract Accounts having max balance based on branch locations
+10) extract all Accounts having no insurance policy 
