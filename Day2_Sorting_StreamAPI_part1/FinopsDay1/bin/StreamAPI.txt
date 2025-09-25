@@ -1,0 +1,74 @@
+Stream is the flow of data/elements [Arrays, Collection]
+ -> Concise code , without loop
+ 
+ 2 Types Operation  1) Intermediate   & 2) Terminal Operations
+                         filter                forEach
+                         Sorted                 collect()
+                         map                   reduce
+                         distinct               anyMatch , allMatch
+                                                 limit
+                         flatmap
+                         
+  
+   Specialized Stream
+       IntStream , LongStream
+       
+       
+  --------------------------------------------------------------------
+        
+    Collect() -> Collectors -> Factory of Collect
+                   toList 
+                   toSet
+                   toMap
+                   groupingby
+                   summingInt
+                   averaging ..
+                   count
+                   distinct    
+                   
+                   
+   --------------------------------------------------------------------
+   Operational interface
+               -> Predicate , Consumer , Function 
+               
+               
+  ----------------------------------------------------------
+  
+  reduce () 
+     -> used to combine all the elements into the single unit 
+          : Sum , avg 
+          identity arg : default value or starting value
+          accumulator :  operation             
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+   
+   
+   
+   
+                         
