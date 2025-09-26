@@ -9,3 +9,14 @@
       Hint : use map
 9) extract Accounts having max balance based on branch locations
 10) extract all Accounts having no insurance policy 
+
+// -------------------------------------
+
+New Requirement 
+1) Sort the Accounts Based on Balance
+2) Sort the Accounts based on Policy hold (Count of Policy)
+3) Sort them based on Location
+4) Sort them based on Upcoming Premium Date
+5) Extract Account having any Health Insurance
+6) Extract Account not having any Health Insurance
+
