@@ -1,0 +1,371 @@
+
+create database finops;
+use finops;
+
+#			Entity	Description
+#	Customer			Stores customer details
+#	Product	    		Inventory of items available for sale
+#	ProductOrder	    Records customer purchases
+#	OrderItem		Line items within an order
+#	Shipment		Tracks delivery status of orders
+#	Feedback		Customer reviews for products
+#	Complaint			Issues raised by customers regarding orders or products
+
+
+# Relationship Highlights
+# Customer & productOrder				: One-to-many (a customer can place many orders)
+# ProductOrder & OrderItem & Product	: Many-to-many relationship via OrderItem
+# ProductOrder & Shipment				: One-to-one (each order has one shipment)
+# Customer & Feedback & Product			: Many-to-many via Feedback
+# Customer & Complaint & Order			: One-to-many (a customer can raise multiple complaints per order)
+
+Create database ecom;
+use ecom;
+
+CREATE TABLE Customer (
+    CustomerID int PRIMARY KEY,
+    Name varchar(100),
+    Email varchar(100) UNIQUE,
+    Phone varchar(15),
+    Address TEXT
+);
+
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    productName VARCHAR(100),
+    productDescription Varchar(500),
+    price int,
+    stockQuantity int,
+    category varchar(50)
+);
+
+CREATE TABLE ProductOrder (
+    OrderID int PRIMARY KEY,
+    CustomerID int,
+    OrderDate DATE,
+    totalOrderAmount int,
+    Status varchar(20),
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- OrderItem Table
+CREATE TABLE OrderItem (
+    orderItemID int PRIMARY KEY,
+    orderID int,
+    productID int,
+    quantity int,
+    unitPrice int,
+    FOREIGN KEY (orderID) REFERENCES ProductOrder(OrderID),
+    FOREIGN KEY (productID) REFERENCES Product(ProductID)
+);
+
+CREATE TABLE Shipment (
+    ShipmentID INT PRIMARY KEY,
+    OrderID INT,
+    ShipmentDate DATE,
+    DeliveryDate DATE,
+    Carrier VARCHAR(50),
+    TrackingNumber VARCHAR(100),
+    Status VARCHAR(20),
+    FOREIGN KEY (OrderID) REFERENCES ProductOrder(OrderID)
+);
+
+CREATE TABLE Feedback (
+    FeedbackID INT PRIMARY KEY,
+    CustomerID INT,
+    ProductID INT,
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),
+    Comment TEXT,
+    FeedbackDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+
+CREATE TABLE Complaint (
+    ComplaintID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderID INT,
+    Description TEXT,
+    ComplaintDate DATE,
+    Status VARCHAR(20),
+    Resolution TEXT,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (OrderID) REFERENCES ProductOrder(OrderID)
+);
+
+
+insert into Customer (CustomerID, Name, Email, Phone, Address) values
+(1, 'Ramesh', 'ramesh@gmail.com', '9876543210', 'Delhi'),
+(2, 'Suresh', 'suresh@gmail.com', '9876543211', 'Mumbai'),
+(3, 'Amit',   'amit@gmail.com',   '9876543212', 'Bangalore'),
+(4, 'Arjun',  'arjun@gmail.com',  '9876543213', 'Hyderabad'),
+(5, 'Neha',   'neha@gmail.com',   '9876543214', 'Chennai');
+
+Insert into Product (ProductID, productname, productDescription, Price, StockQuantity, Category) values
+(1, 'Apple-1', 'MacBook Air M1', 60000, 10, 'Laptop'),
+(2, 'Lenovo-1', 'Lenovo ThinkPad', 45000, 15, 'Laptop'),
+(3, 'Apple-2', 'MacBook Pro M2', 58000, 8, 'Laptop'),
+(4, 'Lenovo-2', 'Lenovo IdeaPad Slim', 30000, 20, 'Laptop'),
+(5, 'HP-1', 'HP ABC', 40000, 12, 'Laptop'),
+(6, 'HP-2', 'HP ABC 2', 55000, 6, 'Laptop'),
+(7, 'HP-3', 'HP Gaming', 50000, 5, 'Laptop'),
+(8, 'T Shirt', 'Cotton T-Shirt', 1200, 50, 'Cloths'),
+(9, 'Shirt', 'Formal Shirt', 1800, 40, 'Cloths'),
+(10, 'Jeans', 'Denim Jeans', 2500, 30, 'Cloths'),
+(11, 'Biscuits', 'Oats Biscuits', 40, 100, 'Food'),
+(12, 'Cake', 'Chocolate Cake', 80, 25, 'Food'),
+(13, 'Bread', 'Whole Wheat Bread', 30, 60, 'Food'),
+(14, 'Snacks', 'Salted Chips', 20, 200, 'Food');
+
+#------------------------------ Inserting Order details -------------------------------------------
+
+insert into productOrder (OrderID, CustomerID, OrderDate, totalOrderAmount, Status) values
+(101, 1, '2024-01-10', 5500, 'Confirmed'),
+(102, 2, '2024-02-15', 4800, 'Confirmed'),
+(103, 3, '2024-03-20', 6000, 'Confirmed'),
+(104, 4, '2024-04-05', 5200, 'Confirmed'),
+(105, 1, '2024-01-25', 100, 'Confirmed'),
+(106, 2, '2024-02-28', 110, 'Confirmed'),
+(107, 3, '2024-03-30', 95, 'Confirmed'),
+(108, 4, '2024-04-10', 85, 'Confirmed'),
+(109, 5, '2024-05-12', 60000, 'Confirmed'),
+(110, 1, '2024-05-20', 45000, 'Confirmed'),
+(111, 2, '2024-06-05', 58000, 'Confirmed'),
+(112, 3, '2024-06-18', 30000, 'Confirmed'),
+(113, 4, '2024-07-01', 40000, 'Confirmed'),
+(114, 5, '2024-07-15', 55000, 'Confirmed'),
+(115, 1, '2024-08-01', 50000, 'Confirmed');
+insert into productOrder (OrderID, CustomerID, OrderDate, totalOrderAmount, Status) values
+(116, 4, '2024-03-10', 5500, 'Not Confirmed'),
+(117, 5, '2024-5-15', 4800, 'Not Confirmed');
+
+
+insert into OrderItem (OrderItemID, OrderID, ProductID, Quantity, UnitPrice) values
+(1, 101, 8, 1, 1200), (2, 101, 9, 1, 1800), (3, 101, 10, 1, 2500),
+(4, 102, 8, 2, 1200), (5, 102, 9, 1, 1800), (6, 102, 10, 1, 2500),
+(7, 103, 9, 2, 1800), (8, 103, 10, 1, 2500), (9, 103, 8, 1, 1200),
+(10, 104, 10, 2, 2500), (11, 104, 8, 1, 1200), (12, 104, 9, 1, 1800),
+(13, 105, 11, 2, 40), (14, 105, 12, 1, 80),
+(15, 106, 13, 1, 30), (16, 106, 14, 2, 20),
+(17, 107, 11, 1, 40), (18, 107, 13, 1, 30),
+(19, 108, 12, 1, 80), (20, 108, 14, 1, 20),
+(21, 109, 1, 1, 60000),
+(22, 110, 2, 1, 45000),
+(23, 111, 3, 1, 58000),
+(24, 112, 4, 1, 30000),
+(25, 113, 5, 1, 40000),
+(26, 114, 6, 1, 55000),
+(27, 115, 7, 1, 50000);
+
+insert into Shipment (ShipmentID, OrderID, ShipmentDate, DeliveryDate, Carrier, TrackingNumber, Status) values
+(201, 101, '2024-01-12', '2024-01-15', 'BlueDart', 'ABC123', 'Delivered'),
+(202, 102, '2024-02-17', '2024-02-20', 'FedEx', 'A22', 'Delivered'),
+(203, 103, '2024-03-22', '2024-03-25', 'Delhivery', 'B55', 'Delivered'),
+(204, 104, '2024-04-07', '2024-04-10', 'DHL', 'A90', 'Delivered'),
+(205, 105, '2024-01-27', NULL, 'BlueDart', 'A45', 'In-Process'),
+(206, 106, '2024-03-01', NULL, 'FedEx', 'A46', 'In-Process'),
+(207, 107, '2024-04-01', NULL, 'Delhivery', 'A47', 'Cancelled'),
+(208, 108, '2024-04-12', NULL, 'DHL', 'B74', 'Cancelled'),
+(209, 109, '2024-05-14', '2024-05-17', 'BlueDart', 'B76', 'Delivered'),
+(210, 110, '2024-05-22', '2024-05-25', 'FedEx', 'B77', 'Delivered'),
+(211, 111, '2024-06-07', '2024-06-10', 'Delhivery', 'B78', 'Delivered'),
+(212, 112, '2024-06-20', '2024-06-23', 'DHL', 'B79', 'Delivered'),
+(213, 113, '2024-07-03', '2024-07-06', 'BlueDart', 'B80', 'Delivered'),
+(214, 114, '2024-07-17', '2024-07-20', 'FedEx', 'B81', 'Delivered'),
+(215, 115, '2024-08-03', '2024-08-06', 'Delhivery', 'B82', 'Delivered');
+
+
+
+#---------------------------------------------------------------------------------------------------------
+insert into Feedback (FeedbackID, CustomerID, ProductID, Rating, Comment, FeedbackDate) values
+(1, 1, 1, 5, 'Excellent laptop!', '2024-02-20'),
+(2, 2, 2, 4, 'Good performance.', '2024-04-21'),
+(3, 3, 8, 3, 'Average quality T-shirt.', '2024-01-22'),
+(4, 4, 12, 5, 'Delicious cake!', '2024-01-10'),
+(5, 5, 5, 4, 'Solid build and value.', '2024-02-24'),
+(6, 1, 14, 2, 'Snacks were stale.', '2024-04-15');
+insert into Feedback (FeedbackID, CustomerID, ProductID, Rating, Comment, FeedbackDate) values
+(7, 1, 2, 5, 'Excellent laptop', '2024-02-20'),
+(8, 5, 2, 4, 'Good performance.', '2024-04-21'),
+(9, 1, 8, 3, 'Average quality T-shirt.', '2024-01-22'),
+(10, 2, 12, 5, 'Delicious cake', '2024-01-10'),
+(11, 3, 5, 4, 'Solid build and value.', '2024-02-24'),
+(12, 2, 14, 2, 'Snacks were stale.', '2024-04-15');
+
+INSERT INTO Complaint (ComplaintID, CustomerID, OrderID, Description, ComplaintDate, Status, Resolution)
+VALUES
+(1, 2, 101, 'Received wrong product', '2025-09-26', 'Open', NULL),
+(2, 4, 102, 'Shipment delayed by 5 days', '2025-09-27', 'Resolved', 'Apology issued and refund processed'),
+(3, 5, 103, 'Laptop not powering on', '2025-09-28', 'In Progress', NULL);
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+select * from orderitem;
+select * from orderitem where quantity>1 and unitPrice>1000;
+
+select * from orderItem where orderid = 101 and orderId = 102;
+ # Option - 1
+select * from orderItem where orderid = 101 or orderId = 102;
+ # option 2
+select * from orderItem where orderid in (101,102) ;
+ 
+ # Products with multiple feedback
+ select * from feedback;
+ 
+ # Give us the products having 2 or more feedbacks 
+ select ProductID, count(*) as FeedbackCount
+ from feedback
+ group by ProductID
+ having count(*)>1;
+ 
+ # get the products avg feedback rating
+ select ProductId , round(avg(Rating),1)   as Avg_rating
+ from feedback
+ group by productId;
+
+
+ # Get the list of Products details ordered by particular customer
+ select productId , orderId from orderItem  
+ where orderId IN
+				(select orderid from productOrder where customerId = 1);
+# where membership is present , Inner queries 
+ 
+ 
+ # Extract : order details + customer + orderdate + status detail related to laptop 
+  select * from orderItem;
+ select * from productorder;
+ select * from product;
+ 
+ select * , 'laptop' as Category
+ from productorder
+ where orderId in
+		(
+			select orderId
+            from orderitem 
+            where productid in
+						(select productId from product where category = 'laptop')
+        );
+        
+ 
+   select * from orderItem;
+select * from feedback;
+ select * from product;
+ 
+ select * , 'laptop' as category from feedback where productid in 
+				(select productId from product where category = 'laptop');
+                
+                
+# -------- Extract the shipment records related to laptop -----
+
+ 
+ select ShipmentID,ShipmentDate,status, 'Laptop' as ProductType
+ from shipment
+ where OrderID  in 
+( select orderid from orderitem
+ where productID in 
+				( select productid from product where category = 'laptop')
+);
+
+
+# Extract product records of cancelled shipment 
+select * from product;
+select productid , productname, category
+from product 
+where productId in 
+( select productid from orderitem where orderid in 
+		( select orderid from shipment where status = 'cancelled')
+);
+ 
+ 
+ 
+ # -----------------------------------------------------------------------------------------------------
+ 
+ # Inner (Default) , Left & Right Join , Self join 
+ # Syntax 
+ #   Select TableA.col1 , TableB.Col2 
+#	 from TableA
+#     Join TableB  ON Join Condition 
+     
+# Select TableA.col1 , TableB.Col2 
+#	 from TableA
+#     Join TableB  ON tableA.col1 = table2.col2;
+
+ # this query will not give us correct information , as we are not using Joins
+select productid , productname, category , s.shipmentid
+from product 
+where productId in 
+( select productid from orderitem where orderid in 
+		( select orderid from shipment as s where status = 'cancelled')
+);
+ 
+
+ 
+ 
+ select po.orderid , po.CustomerID , po.status , po.orderdate,
+		s.shipmentdate , s.DeliveryDate , s.carrier
+ from productorder po
+ Join shipment  s on po.Orderid = s.OrderID;
+ 
+ # extract records (of both table) based on productOrder & Shipment
+  select po.orderid , po.CustomerID , po.status , po.orderdate,
+		s.shipmentdate , s.DeliveryDate , s.carrier
+ from shipment  s
+ Join  productorder po on po.Orderid = s.OrderID;
+ 
+ # bcoz of two table involved we have to use Join`
+ 
+ #---- Conditions / filter on Join Operations 
+ 
+  select * from orderItem;
+select * from feedback;
+ select * from product;
+ select * from shipment;
+ select * from productorder;
+ 
+ 
+ select po.orderid , po.CustomerID , po.status , po.orderdate,
+	   s.shipmentdate , s.DeliveryDate , s.carrier
+from  productorder po
+Join  shipment s on po.Orderid = s.OrderID
+where po.totalOrderAmount < 10000;
+
+# Inner Joins the Multiple columns of multiple tables 
+# if the Joining condition is not satisfied not include the date 
+# inner join excludes the unmatched columns to be rendered 
+ 
+ # ----- Join on Multiple table ---------
+# Join Product , Orderitem & productorder
+
+select p.productName,p.category, oi.quantity , po.OrderDate , po.totalOrderAmount
+from productorder po 
+Join Orderitem oi  ON po.orderid = oi.orderid
+Join product p ON p.ProductID = oi.ProductID
+where p.category = 'Food';
+
+# Applying Group by 
+select p.productName,p.category, oi.quantity , po.OrderDate ,
+		po.totalOrderAmount , sum(po.totalOrderAmount)
+from productorder po 
+Join Orderitem oi  ON po.orderid = oi.orderid
+Join product p ON p.ProductID = oi.ProductID
+where p.category = 'Food'
+group by p.productName;
+
+ 
+
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+ 
