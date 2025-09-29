@@ -355,7 +355,13 @@ where p.category = 'Food'
 group by p.productName;
 
  
+insert into Customer (CustomerID, Name, Email, Phone, Address) values
+(6, 'Kavita',   'kavita@gmail.com',   '9876543214', 'Chennai'),
+(7, 'Alok',   'alok@gmail.com',   '9876543214', 'Delhi');
 
+select c.CustomerID,c.Name,po.OrderID,po.Status
+from customer c
+LEFt Join productorder po on c.CustomerID = po.CustomerID;
 
 
  
