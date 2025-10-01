@@ -1,5 +1,8 @@
 package com.cg.hib.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -8,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
@@ -45,8 +49,17 @@ public class Customer {
 	private Address address;
 	
 	@OneToOne(cascade =  {CascadeType.PERSIST,CascadeType.REMOVE})
-	@JoinColumn(name = "accountlinked")
+	@JoinColumn(name = "accountlinked") // Map the FK
 	private BankAccount bankAccount;
+	
+	
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+	private List<ProductOrder> orders = new ArrayList<>();
+	
+	// mappedBy
+	
+	
 	
 	
 	public Customer(String customerName, String email, long phone) {
@@ -59,3 +72,13 @@ public class Customer {
 	
 
 }
+
+
+
+
+
+
+
+
+
+

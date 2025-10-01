@@ -19,6 +19,9 @@
        <mapping class="com.cg.hib.entity.Address"/> 
        <mapping class="com.cg.hib.entity.BankAccount"/> 
        
+       <mapping class="com.cg.hib.entity.ProductOrder"/> 
+       <mapping class="com.cg.hib.entity.OrderItem"/> 
+       <mapping class="com.cg.hib.entity.Product"/> 
         
         
     </session-factory>
