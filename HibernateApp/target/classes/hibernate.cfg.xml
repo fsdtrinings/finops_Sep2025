@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database Connection Settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cghibdb</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+
+        <!-- Hibernate Properties -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+
+        <!-- Entity Mapping -->
+        
+       <mapping class="com.cg.hib.entity.Customer"/> 
+       <mapping class="com.cg.hib.entity.Address"/> 
+       <mapping class="com.cg.hib.entity.BankAccount"/> 
+       
+        
+        
+    </session-factory>
+</hibernate-configuration>

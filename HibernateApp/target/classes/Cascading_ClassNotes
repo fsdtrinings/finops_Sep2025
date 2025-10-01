@@ -1,0 +1,20 @@
+
+OneTOOne  Cascading 
+
+1) mapping configration between Parent Entity & Child Entity
+
+
+Save/Persist  :   both entities must be saved together
+
+delete 		  :  & same with delete
+
+update 		  :   & same with update
+
+==============================================================================
+
+	@OneToOne(cascade =  {CascadeType.PERSIST,CascadeType.REMOVE})
+	@JoinColumn(name = "accountlinked")
+	private BankAccount bankAccount;
+	
+	only do the cascading during save time & deletion time 
+	

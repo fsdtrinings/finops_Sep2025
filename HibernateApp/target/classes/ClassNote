@@ -1,0 +1,62 @@
+
+1) Hibernate is managing the object State
+
+     Application   ---->. Hiberate API (Business specific code)
+                               ----->> Hibernate Engine ()
+                                          ---->> Communicate with DB
+                                          
+ 
+ Key Termonology 
+ 1) Configuration 			:	hibernate.cfg.xml   it holds the DB specific config.
+ 2) Session Factory 		:	A Factory class of a Session 
+ 3) Session					:	connection b/w DB & App
+ 4) Transaction				:	The object which controls the DML operations like insert,update
+ 5)  Query					:	used to execute SQL Query
+ 
+ -----------------------------------------------------------------------------------------------------------------
+ 
+ 
+ Life Cycle of hibernate Object
+ 
+ 1) Transient 	-> Object is created but not associated with hibernate 
+ 					or hibernate session
+ 					like Customer c = new Customer("Amit kumar");
+ 
+ 
+ 
+ 2) Persistent   -> Object is available in the DB  and also synched with hibernate sesssion
+ 					any attempt to call setXYZ(...) will refelcts back in the DB too.
+ 					
+ 
+ 
+ 3) Detached   -> session.close()
+                   Obj is available in the Db but session has close()
+ 
+ 4) removed 	-> Object is removed or deleteion process
+ 					DB (to be deleted )
+ 					Association with hibernate session :  YES , until we dont call flush()
+ 					session.delete()
+ 					t.commit()
+ 					after commit object is not synched 
+ 					
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
