@@ -11,6 +11,18 @@
         <!-- Hibernate Properties -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- 
+			
+			create : every time creates Schema 
+			create-drop : create & drop the tables when SessionFactory is closed
+						: during testing
+			update : adds the new updates in tables 
+			             using during development
+			
+			 none or validate
+			           : none :- Db schema will be managed from outside
+			           : validate :- if any mismatch is found -> throws an Exception 
+		-->
         <property name="show_sql">true</property>
 
         <!-- Entity Mapping -->

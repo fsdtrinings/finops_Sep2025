@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.cg.hib.entity.Address;
+import com.cg.hib.entity.BankAccount;
 import com.cg.hib.entity.Customer;
 
 public class TestApp {
@@ -26,18 +28,32 @@ public class TestApp {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-		
+		session.close();
 	}//end main
 	
 	public void doSaveCustomers(Session session)throws Exception
 	{
-		Customer c = new Customer("neha", "neah@outlook.com", 435654123L);
+		Customer c = new Customer("Ramesh", "ramesh@outlook.com", 435654123L);
+		Address a = new Address("a-123", "Banglore", "KA");
+		BankAccount ba = new BankAccount(123456, "HDFC", "H1");
 		
-		// through session object we can communicate with the DB 
+		c.setAddress(a);
+		c.setBankAccount(ba);
+		
+		Customer c2 = new Customer("Suresh", "suresh@outlook.com", 435654123L);
+		Address a2 = new Address("b-123", "Banglore", "KA");
+		BankAccount ba2 = new BankAccount(723456, "HDFC", "H1");
+		
+		c2.setAddress(a2);
+		c2.setBankAccount(ba2);
+		
+		
 		
 		Transaction t = session.beginTransaction();
 		
 		session.persist(c);
+		session.persist(c2);
+		
 
 		
 		

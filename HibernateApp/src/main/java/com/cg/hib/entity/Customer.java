@@ -26,6 +26,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+// ----- anntation to anable the level2
 public class Customer {
 
 	@Id

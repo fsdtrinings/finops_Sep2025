@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.cg.hib.entity.Customer;
+import com.cg.hib.entity.Product;
 import com.cg.hib.entity.ProductOrder;
 
 public class OneToManyMain {
@@ -17,19 +18,29 @@ public class OneToManyMain {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		
+		
+		// Extract the Product
+		
+		Product p1 = session.get(Product.class, 1);// pen
+		Product p2 = session.get(Product.class, 2);// notebook
+		Product p3 = session.get(Product.class, 3);// tshirt
+		Product p4 = session.get(Product.class, 4);//shirt
+		
+		
+		
+		
+		
+		
+		// public ProductOrder(int totalAmount, LocalDate orderDate, String status)
 		ProductOrder order1 = new ProductOrder(500, LocalDate.of(2025, 4, 1),"Completed");
 		ProductOrder order2 = new ProductOrder(501, LocalDate.of(2025, 9, 10),"Completed");
 		ProductOrder order3 = new ProductOrder(60, LocalDate.of(2025, 8, 11),"Cancelled");
 		ProductOrder order4 = new ProductOrder(80, LocalDate.of(2025, 9, 21),"Completed");
 		
-		Customer c1 = session.get(Customer.class, 1);
-		Customer c2 = session.get(Customer.class, 2);
-		Customer c3 = session.get(Customer.class, 52);
+		Customer c1 = session.get(Customer.class, 1000);
+		Customer c2 = session.get(Customer.class, 1003);
+		Customer c3 = session.get(Customer.class, 1004);
 		
-		
-		System.out.println("-->> C1 "+c1);
-		System.out.println("-->> C2 "+c2);
-		System.out.println("-->> C3 "+c3);
 		
 		order1.setCustomer(c1);
 		order2.setCustomer(c1);

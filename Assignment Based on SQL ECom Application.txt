@@ -1,0 +1,28 @@
+Based on the ECommerse Case Study , (worked in SQL)
+
+Implement following Use cases in Hibernate 
+ 
+
+1) Extract all products in a specific category 
+2) Fetch all orders with amount greater than input value 
+
+3) Count total orders placed by each customer 
+4) Find average rating for each product
+5) Customers who placed orders above average order amount [Hint : use Inner Query]
+6) Products that are more expensive than the average product price
+7) Complaints related to orders whose shipment status is 'Delivered'
+
+8) Get all orders with customer details
+9) List all order items with product names
+10) Fetch all shipments with customer names
+11) Fetch complaints with related customer and order info
+
+
+12) Generate invoice for an order
+	Must include customer name, products, quantity, unit price, total amount.
+
+
+13) Generate delivery receipt
+	Must include Customer Name, Phone, Address, Carrier, Tracking Number, Shipment Date.
+
+14) Products never ordered

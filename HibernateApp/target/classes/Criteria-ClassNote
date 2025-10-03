@@ -1,0 +1,17 @@
+Key Components 
+
+1) CriteriaBuilder 
+2) CriteriaQuery
+3) Root<___>  : actual query
+session.criteriaBuilder()
+
+
+
+session.createQuery()
+
+
+simple select operation 
+
+Step 1	:	CriteriaBuilder cd
+Step 2	:	CriteriaQuery cq  -> Entrity Name
+Step 3	:	Root<Customer> root cq.from(Customer.class).getResultList();
