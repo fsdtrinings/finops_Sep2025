@@ -1,9 +1,15 @@
 package com.cg.hib;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.cg.hib.entity.BankAccount;
+import com.cg.hib.entity.Customer;
+import com.cg.hib.entity.OrderItem;
 import com.cg.hib.entity.Product;
+import com.cg.hib.entity.ProductOrder;
 
 public class ProductMainCLass {
 
@@ -11,7 +17,7 @@ public class ProductMainCLass {
 		
 		ProductMainCLass obj = new ProductMainCLass();
 		//obj.saveproduct();
-		obj.doLazyIssue();
+		
 	}
 	
 	public void saveproduct()
@@ -36,14 +42,8 @@ public class ProductMainCLass {
 		session.close();
 	}
 	
-	public void doLazyIssue()
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		
-		Product p = session.get(Product.class,1);
-		session.close();
-		System.out.println(p.getName());
-	}
+	
+	
 	
 	
 }

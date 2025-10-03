@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.cg.hib.entity.BankAccount;
 import com.cg.hib.entity.Customer;
 import com.cg.hib.entity.ProductOrder;
 
@@ -20,7 +21,11 @@ public class CriteriaMainClass {
 		//obj.simpleSelect();
 		//obj.selectUsingWhere();
 		//obj.getCustomerBasedOnAddress();
+
 		obj.getCustomerBasedOnProductOrder();
+		
+		System.out.println("\n-------------------------------------\n");
+		obj.getBankBasedOnCustomer();
 	}//end main
 	
 	public void simpleSelect() {
@@ -40,11 +45,19 @@ public class CriteriaMainClass {
 	
 	public void selectUsingWhere()
 	{
+		
+		/*
+		 * select * from Customer
+		 * where customerName = ? and phone = ?
+		 * 
+		 * 
+		 * */
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
 		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);
-		Root<Customer> root = cq.from(Customer.class); // actual query
+		CriteriaQuery<Customer> cq = cb.createQuery(Customer.class); // Select
+		Root<Customer> root = cq.from(Customer.class); // actual query  
+		// based on what object we want to filter
 		
 		String filterName = "Ramesh";
 		long filterPhone = 435654123L;
@@ -56,8 +69,6 @@ public class CriteriaMainClass {
 		Predicate p2 = cb.equal(root.get("phone"), filterPhone);
 		
 		
-		
-		//cb.gt(root.get("itemPrice"), 1000)
 		cq.select(root).where(cb.and(p1,p2));
 		List<Customer> list = session.createQuery(cq).getResultList();
 		list.stream().forEach((row)->{
@@ -110,13 +121,12 @@ public class CriteriaMainClass {
 		 select customer-----
 			 * From ProductOrder po
 			 * where po.orderId = 2
-			 * 
-			 * 
 			 * */
 			
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
 		CriteriaBuilder cb = session.getCriteriaBuilder();
+		/* Enity for the Select columns*/
 		CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);
 		
 		/* on what object basis we want to filter*/
@@ -126,16 +136,50 @@ public class CriteriaMainClass {
 		  .where(cb.equal(root.get("orderId"),2));
 		
 		Customer customer = session.createQuery(cq).getSingleResult();
-		System.out.println(customer.getCid());
-		System.out.println(customer.getCustomerName());
-		System.out.println(customer.getPhone());
-		System.out.println(customer.getAddress().toString());
+		System.out.println(customer);
 		
+		/*
+		 * System.out.println(customer.getCid());
+		 * System.out.println(customer.getCustomerName());
+		 * System.out.println(customer.getPhone());
+		 * System.out.println(customer.getAddress().toString());
+		 */
 		
 		
 	}
 	
-	
+	public void getBankBasedOnCustomer()
+	{
+		/* SQL: 
+		 * select * from bankaccount where accountNumber in
+		 *  (select accountlinked from customer where cid=1003);
+		 *  
+		 *  in HQL:
+		 *  BankAccount ba = (select c.bankAccount
+		 *  from Customer c
+		 *  where c.customerId = 1003).
+		 * 
+		 * */
+		
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		/* Enity for the Select columns*/
+		CriteriaQuery<BankAccount> cq = cb.createQuery(BankAccount.class);
+		
+		/* on what object basis we want to filter*/
+		Root<Customer> root = cq.from(Customer.class); // actual query
+		
+		Predicate p = cb.equal(root.get("cid"), 1003); // condition
+		
+		cq.select(root.get("bankAccount")).where(p);
+		
+		BankAccount ba = session.createQuery(cq).getSingleResult();
+		System.out.println(ba);
+		
+		
+	}
 
 
 

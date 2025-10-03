@@ -56,6 +56,7 @@ public class Customer {
 	
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+	@ToString.Exclude
 	private List<ProductOrder> orders = new ArrayList<>();
 	
 	// mappedBy

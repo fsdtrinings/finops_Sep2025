@@ -1,0 +1,34 @@
+
+
+// Lazy Loading 
+
+// lazy loading hibernate hit the database when we attempt to call get() over any persistent object
+
+
+case 1: 
+    Hibernate does egar loading in case direct property 
+    
+    public class Product {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int pid;
+	private String name;
+	private int unitcost;
+	private int sellingPrice;
+	}
+	
+	session.openSession();
+	Product p = session.get(Product.class,1); 
+	session.close();
+	String name = p.getName(); // we will get the values 
+								// this is the direct property , not in any mapping
+
+case 2: 
+
+   hibernate does the Egar loading 
+    a) oneToOne & 
+    b) ManyToOne    mapping
+    
+ other than case 2 mapping all have done through : LazyLoading
+						
