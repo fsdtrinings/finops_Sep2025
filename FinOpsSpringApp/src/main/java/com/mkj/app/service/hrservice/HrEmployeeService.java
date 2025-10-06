@@ -10,7 +10,7 @@ public interface HrEmployeeService {
 
 	public String saveEmployee(Employee e);
 	public String uploadDocs(KYCDocuments docs);
-	
+	public void clearCache();
 	public Employee getEmployee(int code);
 	
 	public KYCDocuments getDocs(int adharNumber);

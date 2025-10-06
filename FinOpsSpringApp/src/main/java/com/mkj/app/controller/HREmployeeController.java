@@ -39,6 +39,14 @@ public class HREmployeeController {
 		return str;
 	}
 	
+	public ResponseEntity<String> deleteEmployeeRecord(@PathVariable int code)
+	{
+		// calling service delete operation
+		
+		// after deleting employee
+		hrService.clearCache();
+		return null;
+	}
 	
 	
 	

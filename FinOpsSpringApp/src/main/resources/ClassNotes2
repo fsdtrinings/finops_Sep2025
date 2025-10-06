@@ -19,3 +19,62 @@ Response Entity
     else if(res.status == 404) { render some error page}
     else if(res.status == 500) { render exception page}
  })
+ 
+ 
+ // ----------------------------------------------------------------------------------------------
+ 
+ 
+ EmployeeController  ---->> EmployeeService --->> EmployeeRepository
+                              --->> ProjectService --->> validationService
+                              -->> ValidationService
+                              ---->> EmployeeService -->> ValidationService
+                              
+ 
+ //--------------------------------------------------------------------------
+ 
+ Two implementation 
+ 1) Spring cache 
+ 
+ 2nd approach redis (X)
+ 
+ ---
+ 
+ Step 1) Start depedency of Spring cache 
+ 
+ Step 2) EnabaleCache through main class
+ 
+ Step 3) add some annotations over Service 
+            @Cacheable
+            @cacheEvit 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
