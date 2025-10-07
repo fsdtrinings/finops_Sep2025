@@ -87,17 +87,35 @@ public class HREmployeeServiceImpl implements HrEmployeeService
 
 
 	@Override
-	public List<Employee> getEmployeesByTechName(String techName) {
-		
-		List<Employee> list = hrRepo.findByTechName(techName);	
+	public List<Employee> getEmployeesByTechName(String techName)
+	{
+		return	hrRepo.findByTechName(techName);
+	}
+
+
+	@Override
+	public List<Employee> getEmployeeBySalaryRange(int s1, int s2) {
+	
+		List<Employee> list = hrRepo.findBySalaryBetween(s1, s2);
+	
 		return list;
 	}
+
+
+	@Override
+	public Employee getEmployeeByAdharNumber(int adharNumber) {
+		Employee e = hrRepo.findByEmpDocsAdharNumber(adharNumber);
+		
+		return e;
+	}
+	
+	
 	
 	
 	
 
 	
-}
+}//end class
 
 
 
