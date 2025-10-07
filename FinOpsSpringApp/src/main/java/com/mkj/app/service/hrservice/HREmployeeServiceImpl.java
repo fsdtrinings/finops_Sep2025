@@ -2,6 +2,8 @@ package com.mkj.app.service.hrservice;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -73,6 +75,22 @@ public class HREmployeeServiceImpl implements HrEmployeeService
 		return savedEmployee;
 	
 		
+	}
+
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		List<Employee> list = hrRepo.findAll();
+	
+			return list;
+		}
+
+
+	@Override
+	public List<Employee> getEmployeesByTechName(String techName) {
+		
+		List<Employee> list = hrRepo.findByTechName(techName);	
+		return list;
 	}
 	
 	

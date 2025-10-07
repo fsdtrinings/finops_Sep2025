@@ -1,5 +1,7 @@
 package com.mkj.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -18,8 +20,14 @@ import com.mkj.app.entity.KYCDocuments;
 import com.mkj.app.repository.hrrepo.HREmployeeRepository;
 import com.mkj.app.service.hrservice.HrEmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/hr")
+@Tag(name = "Employee Entity" , description = "Operations related to Employee")
 public class HREmployeeController {
 
 	@Autowired
@@ -49,9 +57,20 @@ public class HREmployeeController {
 	}
 	
 	
+	@Operation(
+			
+			summary = "Operation is used to get Employee by empCode",
+			description = "fetches the unique employee",
+			responses = 
+						{
+								@ApiResponse(responseCode = "200",description = "Employee Found"),
+								@ApiResponse(responseCode = "500",description = "Exception at backend"),
+								
+						})
 	
 	@GetMapping("/employee/{code}")
-	public ResponseEntity<Employee> getEmployeebyId(@PathVariable int code)
+	public ResponseEntity<?> getEmployeebyId
+						(@Parameter(description = "Provoide unique employee code",example = "1")		@PathVariable int code)
 	{
 		Employee savedEmployee =  hrService.getEmployee(code);
 		
@@ -84,6 +103,19 @@ public class HREmployeeController {
 		return new ResponseEntity<Employee>(updatedEmployee,HttpStatus.OK);
 	}
 	
+	@GetMapping("/employees")
+	public ResponseEntity<List<Employee>> getAllEmployee()
+	{
+		List<Employee> list = hrService.getAllEmployees();
+		return new ResponseEntity<List<Employee>>(list,HttpStatus.OK);
+	}
+	
+	@GetMapping("/employees/techname")
+	public ResponseEntity<List<Employee>> getEmployeesBytechName(@RequestParam String tn)
+	{
+		List<Employee> list = hrService.getEmployeesByTechName(tn);
+		return new ResponseEntity<List<Employee>>(list,HttpStatus.OK);
+	}
 }//end class
 
 
